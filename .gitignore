@@ -35,6 +35,11 @@ coverage/
 # Misc
 *.local
 *.log
+PESTLE Analysis App PRD Generation_.md
+package-lock.json
+.gitignore
+.eslintrc.json
+.prettierrc
 
 # React specific
 *.env.local
@@ -68,5 +73,5 @@ coverage/
 *~
 
 # Ignore tasks and temp
-.tasks/
+tasks/
 tmp/ 
