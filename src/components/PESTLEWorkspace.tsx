@@ -266,7 +266,7 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
           <textarea
             ref={narrativeRef}
             className="border border-gray-300 dark:border-gray-700 rounded p-3 w-full focus:ring-2 focus:ring-blue-400 focus:outline-none transition text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-            placeholder="Narrative (Markdown supported)"
+            placeholder="Narrative"
             value={narrative}
             onChange={(e) => setNarrative(e.target.value)}
             rows={3}
