@@ -92,49 +92,6 @@ A professional, accessible, and minimalist web app for structured **PESTLE** (Po
 
 ---
 
-## 🗂️ Project Structure
-
-```text
-pestle-analysis/
-├── public/
-│   ├── favicon.ico
-│   ├── index.html
-│   ├── logo192.png
-│   ├── logo512.png
-│   ├── manifest.json
-│   └── robots.txt
-├── src/
-│   ├── components/
-│   │   ├── ExportMenu.tsx
-│   │   ├── PESTLEWorkspace.tsx
-│   │   ├── ProjectList.tsx
-│   │   ├── PromptPanel.tsx
-│   │   └── SummaryDashboard.tsx
-│   ├── utils/
-│   │   └── localStorage.ts
-│   ├── types/
-│   │   └── models.ts
-│   ├── App.tsx
-│   ├── App.css
-│   ├── App.test.tsx
-│   ├── index.tsx
-│   ├── index.css
-│   ├── logo.svg
-│   ├── react-app-env.d.ts
-│   ├── reportWebVitals.ts
-│   └── setupTests.ts
-├── Dockerfile
-├── LICENSE
-├── package.json
-├── postcss.config.js
-├── README.md
-├── tailwind.config.js
-├── tsconfig.json
-└── docker-compose.yml
-```
-
----
-
 ## 📄 License
 
 MIT License. See [LICENSE](./LICENSE).
