@@ -37,7 +37,6 @@ coverage/
 *.log
 PESTLE Analysis App PRD Generation_.md
 package-lock.json
-.gitignore
 .eslintrc.json
 .prettierrc
 
