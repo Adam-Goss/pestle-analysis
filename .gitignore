@@ -35,10 +35,10 @@ coverage/
 # Misc
 *.local
 *.log
-PESTLE Analysis App PRD Generation_.md
+PESTLE-Analysis-App-PRD-Generation.md
 package-lock.json
 .eslintrc.json
-.prettierrc
+.prettierrc.json
 
 # React specific
 *.env.local

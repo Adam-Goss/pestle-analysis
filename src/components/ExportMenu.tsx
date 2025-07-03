@@ -65,16 +65,16 @@ const ExportMenu: React.FC<ExportMenuProps> = ({ projectId }) => {
   };
 
   return (
-    <div className="flex gap-3 items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 shadow-sm">
+    <div className="flex gap-3 items-center bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg px-3 py-2 shadow-sm transition-colors duration-300">
       <button
-        className="px-3 py-1 rounded-md text-sm font-medium bg-white border border-gray-300 shadow-sm hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition"
+        className="px-3 py-1 rounded-md text-sm font-medium bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 shadow-sm hover:bg-blue-50 dark:hover:bg-blue-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition"
         onClick={handleMarkdown}
         aria-label="Export as Markdown"
       >
         <span className="inline-block align-middle">Export MD</span>
       </button>
       <button
-        className="px-3 py-1 rounded-md text-sm font-medium bg-white border border-gray-300 shadow-sm hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition"
+        className="px-3 py-1 rounded-md text-sm font-medium bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 shadow-sm hover:bg-blue-50 dark:hover:bg-blue-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition"
         onClick={handlePDF}
         aria-label="Export as PDF"
       >

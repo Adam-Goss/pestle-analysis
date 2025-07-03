@@ -184,14 +184,14 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
   return (
     <div className="max-w-3xl mx-auto p-6 mt-8">
       {/* Tab Bar */}
-      <div className="flex gap-2 mb-0 border-b border-gray-200 bg-white rounded-t-xl shadow-sm overflow-x-auto">
+      <div className="flex gap-2 mb-0 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 rounded-t-xl shadow-sm overflow-x-auto transition-colors duration-300">
         {CATEGORIES.map((cat) => (
           <button
             key={cat}
             className={`px-4 py-2 text-sm font-medium rounded-t-xl transition focus:outline-none focus:ring-2 focus:ring-blue-400 ${
               activeTab === cat
-                ? 'bg-blue-600 text-white shadow-sm'
-                : 'bg-gray-100 text-gray-700 hover:bg-blue-50'
+                ? 'bg-blue-600 text-white shadow-sm dark:bg-blue-500 dark:text-gray-100'
+                : 'bg-gray-100 text-gray-700 hover:bg-blue-50 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-blue-900'
             }`}
             onClick={() => setActiveTab(cat)}
           >
@@ -200,18 +200,20 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
         ))}
       </div>
       {/* Workspace Card */}
-      <div className="border border-gray-200 rounded-b-xl bg-white p-6 min-h-[220px] shadow-sm">
+      <div className="border border-gray-200 dark:border-gray-800 rounded-b-xl bg-white dark:bg-gray-900 p-6 min-h-[220px] shadow-sm transition-colors duration-300">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-2">
-          <h2 className="text-xl font-semibold tracking-tight">{activeTab} Factors</h2>
+          <h2 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
+            {activeTab} Factors
+          </h2>
           <div className="flex gap-2 items-center flex-wrap">
             <button
-              className="text-blue-600 underline text-sm px-2 py-1 rounded hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              className="text-blue-600 dark:text-blue-400 underline text-sm px-2 py-1 rounded hover:bg-blue-50 dark:hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               onClick={() => setPromptOpen(true)}
             >
               Show Prompts
             </button>
             <button
-              className="text-blue-600 underline text-sm px-2 py-1 rounded hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              className="text-blue-600 dark:text-blue-400 underline text-sm px-2 py-1 rounded hover:bg-blue-50 dark:hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               onClick={() => setSummaryOpen(true)}
             >
               Summary
@@ -230,7 +232,7 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
         <div className="mb-6 flex flex-col gap-3">
           <textarea
             ref={narrativeRef}
-            className="border border-gray-300 rounded p-3 w-full focus:ring-2 focus:ring-blue-400 focus:outline-none transition text-sm"
+            className="border border-gray-300 dark:border-gray-700 rounded p-3 w-full focus:ring-2 focus:ring-blue-400 focus:outline-none transition text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
             placeholder="Narrative (Markdown supported)"
             value={narrative}
             onChange={(e) => setNarrative(e.target.value)}
@@ -238,7 +240,7 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
             aria-label="Narrative"
           />
           <div className="flex flex-col sm:flex-row gap-3 items-center">
-            <label className="flex items-center gap-2 text-sm">
+            <label className="flex items-center gap-2 text-sm text-gray-900 dark:text-gray-100">
               <span>Risk:</span>
               <input
                 type="number"
@@ -246,36 +248,38 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
                 max={10}
                 value={risk}
                 onChange={(e) => setRisk(Number(e.target.value))}
-                className="border border-gray-300 rounded w-16 px-2 py-1 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+                className="border border-gray-300 dark:border-gray-700 rounded w-16 px-2 py-1 focus:ring-2 focus:ring-blue-400 focus:outline-none transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
               />
             </label>
             <input
-              className="border border-gray-300 rounded px-3 py-2 flex-1 focus:ring-2 focus:ring-blue-400 focus:outline-none transition text-sm"
+              className="border border-gray-300 dark:border-gray-700 rounded px-3 py-2 flex-1 focus:ring-2 focus:ring-blue-400 focus:outline-none transition text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
               placeholder="Tags (comma separated)"
               value={tags}
               onChange={(e) => setTags(e.target.value)}
             />
             <button
-              className="bg-green-600 text-white px-5 py-2 rounded shadow-sm hover:bg-green-700 focus:ring-2 focus:ring-green-400 focus:outline-none transition"
+              className="bg-green-600 text-white px-5 py-2 rounded shadow-sm hover:bg-green-700 focus:ring-2 focus:ring-green-400 focus:outline-none transition font-semibold"
               onClick={handleAdd}
             >
               Add
             </button>
           </div>
         </div>
-        <ul className="divide-y">
-          {filtered.length === 0 && <li className="text-gray-500">No entries yet.</li>}
+        <ul className="divide-y divide-gray-100 dark:divide-gray-800">
+          {filtered.length === 0 && (
+            <li className="text-gray-500 dark:text-gray-400">No entries yet.</li>
+          )}
           {filtered.map((entry) => (
             <li key={entry.entry_id} className="py-2 flex items-center justify-between">
               {editingId === entry.entry_id ? (
                 <div className="flex-1">
                   <textarea
-                    className="border rounded p-2 w-full mb-1"
+                    className="border border-gray-300 dark:border-gray-700 rounded p-2 w-full mb-1 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                     value={editNarrative}
                     onChange={(e) => setEditNarrative(e.target.value)}
                   />
                   <div className="flex gap-4 items-center mb-1">
-                    <label className="flex items-center gap-1">
+                    <label className="flex items-center gap-1 text-gray-900 dark:text-gray-100">
                       Risk:
                       <input
                         type="number"
@@ -283,11 +287,11 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
                         max={10}
                         value={editRisk}
                         onChange={(e) => setEditRisk(Number(e.target.value))}
-                        className="border rounded w-16 px-2"
+                        className="border border-gray-300 dark:border-gray-700 rounded w-16 px-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                       />
                     </label>
                     <input
-                      className="border rounded px-2 py-1 flex-1"
+                      className="border border-gray-300 dark:border-gray-700 rounded px-2 py-1 flex-1 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                       placeholder="Tags (comma separated)"
                       value={editTags}
                       onChange={(e) => setEditTags(e.target.value)}
@@ -295,23 +299,28 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
                   </div>
                   <div className="flex gap-2">
                     <button
-                      className="bg-blue-600 text-white px-3 py-1 rounded"
+                      className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
                       onClick={() => handleSaveEdit(entry.entry_id)}
                     >
                       Save
                     </button>
-                    <button className="bg-gray-300 px-3 py-1 rounded" onClick={handleCancelEdit}>
+                    <button
+                      className="bg-gray-300 dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-1 rounded hover:bg-gray-400 dark:hover:bg-gray-600 focus:ring-2 focus:ring-gray-400 focus:outline-none transition"
+                      onClick={handleCancelEdit}
+                    >
                       Cancel
                     </button>
                   </div>
                 </div>
               ) : (
                 <div className="flex-1">
-                  <div className="font-semibold">{entry.narrative}</div>
-                  <div className="text-sm text-gray-500">
+                  <div className="font-semibold text-gray-900 dark:text-gray-100">
+                    {entry.narrative}
+                  </div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
                     Risk: {entry.risk_factor} | Tags: {entry.tags.join(', ')}
                   </div>
-                  <div className="text-xs text-gray-400">
+                  <div className="text-xs text-gray-400 dark:text-gray-500">
                     Created: {entry.created_at.slice(0, 10)} | Updated:{' '}
                     {entry.updated_at.slice(0, 10)}
                   </div>
@@ -320,13 +329,13 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
               {editingId === entry.entry_id ? null : (
                 <div className="flex flex-col gap-1 items-end">
                   <button
-                    className="text-blue-600 hover:underline"
+                    className="text-blue-600 dark:text-blue-400 hover:underline"
                     onClick={() => handleEdit(entry)}
                   >
                     Edit
                   </button>
                   <button
-                    className="text-red-500 hover:underline"
+                    className="text-red-500 dark:text-red-400 hover:underline"
                     onClick={() => handleDelete(entry.entry_id)}
                   >
                     Delete

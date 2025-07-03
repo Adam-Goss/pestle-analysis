@@ -9,9 +9,15 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  @apply bg-gray-50 text-gray-900 transition-colors duration-300;
+}
+
+body.dark {
+  @apply bg-gray-900 text-gray-100 transition-colors duration-300;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+  @apply bg-gray-100 text-pink-600 px-1 rounded dark:bg-gray-800 dark:text-pink-400;
 }

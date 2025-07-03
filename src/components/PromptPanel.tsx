@@ -138,25 +138,30 @@ const PromptPanel: React.FC<PromptPanelProps> = ({ category, open, onClose }) =>
       aria-modal="true"
       aria-label={`${category} Prompts`}
     >
-      <div className="bg-white rounded shadow-lg max-w-md w-full p-6 relative" data-prompt-modal>
+      <div
+        className="bg-white dark:bg-gray-900 rounded shadow-lg max-w-md w-full p-6 relative border border-gray-200 dark:border-gray-800 transition-colors duration-300"
+        data-prompt-modal
+      >
         <button
           ref={closeBtnRef}
-          className="absolute top-2 right-2 text-gray-500 hover:text-black"
+          className="absolute top-2 right-2 text-gray-500 dark:text-gray-300 hover:text-black dark:hover:text-white"
           onClick={onClose}
           aria-label="Close prompts"
         >
           ×
         </button>
-        <h3 className="text-lg font-bold mb-4">{category} Prompts</h3>
+        <h3 className="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100">
+          {category} Prompts
+        </h3>
         {!editMode ? (
           <>
-            <ul className="list-disc pl-5 space-y-2 mb-4">
+            <ul className="list-disc pl-5 space-y-2 mb-4 text-gray-800 dark:text-gray-100">
               {prompts.map((q, i) => (
                 <li key={i}>{q}</li>
               ))}
             </ul>
             <button
-              className="text-xs px-2 py-1 rounded bg-gray-100 border border-gray-200 hover:bg-blue-50"
+              className="text-xs px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-blue-50 dark:hover:bg-blue-900 text-gray-900 dark:text-gray-100"
               onClick={() => setEditMode(true)}
             >
               Edit Prompts
@@ -170,18 +175,18 @@ const PromptPanel: React.FC<PromptPanelProps> = ({ category, open, onClose }) =>
                   {editIdx === i ? (
                     <>
                       <input
-                        className="border px-2 py-1 rounded text-sm flex-1"
+                        className="border border-gray-300 dark:border-gray-700 px-2 py-1 rounded text-sm flex-1 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                         value={editText}
                         onChange={(e) => setEditText(e.target.value)}
                       />
                       <button
-                        className="text-xs px-2 py-1 rounded bg-blue-100 hover:bg-blue-200"
+                        className="text-xs px-2 py-1 rounded bg-blue-100 dark:bg-blue-900 hover:bg-blue-200 dark:hover:bg-blue-800 text-blue-800 dark:text-blue-200"
                         onClick={handleEditSave}
                       >
                         Save
                       </button>
                       <button
-                        className="text-xs px-2 py-1 rounded bg-gray-100 hover:bg-gray-200"
+                        className="text-xs px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100"
                         onClick={handleEditCancel}
                       >
                         Cancel
@@ -189,15 +194,15 @@ const PromptPanel: React.FC<PromptPanelProps> = ({ category, open, onClose }) =>
                     </>
                   ) : (
                     <>
-                      <span className="flex-1">{q}</span>
+                      <span className="flex-1 text-gray-900 dark:text-gray-100">{q}</span>
                       <button
-                        className="text-xs px-2 py-1 rounded bg-gray-100 hover:bg-gray-200"
+                        className="text-xs px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100"
                         onClick={() => handleEdit(i)}
                       >
                         Edit
                       </button>
                       <button
-                        className="text-xs px-2 py-1 rounded bg-red-100 hover:bg-red-200"
+                        className="text-xs px-2 py-1 rounded bg-red-100 dark:bg-red-900 hover:bg-red-200 dark:hover:bg-red-800 text-red-700 dark:text-red-200"
                         onClick={() => handleDelete(i)}
                       >
                         Delete
@@ -209,14 +214,14 @@ const PromptPanel: React.FC<PromptPanelProps> = ({ category, open, onClose }) =>
             </ul>
             <div className="flex gap-2 mb-4">
               <input
-                className="border px-2 py-1 rounded text-sm flex-1"
+                className="border border-gray-300 dark:border-gray-700 px-2 py-1 rounded text-sm flex-1 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                 placeholder="Add new prompt"
                 value={newPrompt}
                 onChange={(e) => setNewPrompt(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
               />
               <button
-                className="text-xs px-2 py-1 rounded bg-green-100 hover:bg-green-200"
+                className="text-xs px-2 py-1 rounded bg-green-100 dark:bg-green-900 hover:bg-green-200 dark:hover:bg-green-800 text-green-800 dark:text-green-200"
                 onClick={handleAdd}
               >
                 Add
@@ -224,19 +229,19 @@ const PromptPanel: React.FC<PromptPanelProps> = ({ category, open, onClose }) =>
             </div>
             <div className="flex gap-2">
               <button
-                className="text-xs px-2 py-1 rounded bg-blue-100 hover:bg-blue-200"
+                className="text-xs px-2 py-1 rounded bg-blue-100 dark:bg-blue-900 hover:bg-blue-200 dark:hover:bg-blue-800 text-blue-800 dark:text-blue-200"
                 onClick={handleSave}
               >
                 Save
               </button>
               <button
-                className="text-xs px-2 py-1 rounded bg-gray-100 hover:bg-gray-200"
+                className="text-xs px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100"
                 onClick={() => setEditMode(false)}
               >
                 Cancel
               </button>
               <button
-                className="text-xs px-2 py-1 rounded bg-yellow-100 hover:bg-yellow-200"
+                className="text-xs px-2 py-1 rounded bg-yellow-100 dark:bg-yellow-900 hover:bg-yellow-200 dark:hover:bg-yellow-800 text-yellow-800 dark:text-yellow-200"
                 onClick={handleReset}
               >
                 Reset to Default
