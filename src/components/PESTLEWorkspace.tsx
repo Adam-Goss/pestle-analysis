@@ -1,11 +1,27 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { PESTLEEntry } from '../types/models';
-import { loadEntries, saveEntries } from '../utils/localStorage';
-import PromptPanel from './PromptPanel';
-import SummaryDashboard from './SummaryDashboard';
-import ExportMenu from './ExportMenu';
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import { PESTLEEntry } from "../types/models";
+import { loadEntries, saveEntries } from "../utils/localStorage";
+import PromptPanel from "./PromptPanel";
+import SummaryDashboard from "./SummaryDashboard";
+import ExportMenu from "./ExportMenu";
 
-const CATEGORIES = ['Political', 'Economic', 'Social', 'Technological', 'Legal', 'Environmental'];
+const CATEGORIES = [
+  "Political",
+  "Economic",
+  "Social",
+  "Technological",
+  "Legal",
+  "Environmental",
+];
+
+const CATEGORY_ICONS: Record<string, string> = {
+  Political: "🏛️",
+  Economic: "💰",
+  Social: "👥",
+  Technological: "💻",
+  Legal: "⚖️",
+  Environmental: "🌱",
+};
 
 interface PESTLEWorkspaceProps {
   projectId: string;
@@ -13,9 +29,9 @@ interface PESTLEWorkspaceProps {
 
 // Utility to generate a UUID (v4, simplified)
 function generateUUID() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
     const r = (Math.random() * 16) | 0,
-      v = c === 'x' ? r : (r & 0x3) | 0x8;
+      v = c === "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
 }
@@ -25,14 +41,16 @@ function generateUUID() {
  */
 const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
   const [activeTab, setActiveTab] = useState(CATEGORIES[0]);
-  const [entries, setEntries] = useState<PESTLEEntry[]>(() => loadEntries(projectId));
-  const [narrative, setNarrative] = useState('');
+  const [entries, setEntries] = useState<PESTLEEntry[]>(() =>
+    loadEntries(projectId)
+  );
+  const [narrative, setNarrative] = useState("");
   const [risk, setRisk] = useState(5);
-  const [tags, setTags] = useState('');
+  const [tags, setTags] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editNarrative, setEditNarrative] = useState('');
+  const [editNarrative, setEditNarrative] = useState("");
   const [editRisk, setEditRisk] = useState(5);
-  const [editTags, setEditTags] = useState('');
+  const [editTags, setEditTags] = useState("");
   const [promptOpen, setPromptOpen] = useState(false);
   const [summaryOpen, setSummaryOpen] = useState(false);
   const skipSave = useRef(false);
@@ -59,16 +77,16 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
         narrative: narrative.trim(),
         risk_factor: risk,
         tags: tags
-          .split(',')
+          .split(",")
           .map((t) => t.trim())
           .filter(Boolean),
         created_at: now,
         updated_at: now,
       },
     ]);
-    setNarrative('');
+    setNarrative("");
     setRisk(5);
-    setTags('');
+    setTags("");
   }, [narrative, activeTab, risk, tags, entries]);
 
   // Keyboard shortcuts
@@ -84,30 +102,30 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
         }
       }
       // Ctrl+Enter: Add entry (if not editing)
-      if (e.ctrlKey && e.key === 'Enter' && !editingId) {
+      if (e.ctrlKey && e.key === "Enter" && !editingId) {
         handleAdd();
         e.preventDefault();
         return;
       }
       // Ctrl+Shift+S: Open summary
-      if (e.ctrlKey && e.shiftKey && (e.key === 'S' || e.key === 's')) {
+      if (e.ctrlKey && e.shiftKey && (e.key === "S" || e.key === "s")) {
         setSummaryOpen(true);
         e.preventDefault();
         return;
       }
       // Ctrl+Shift+Q: Open prompts
-      if (e.ctrlKey && e.shiftKey && (e.key === 'Q' || e.key === 'q')) {
+      if (e.ctrlKey && e.shiftKey && (e.key === "Q" || e.key === "q")) {
         setPromptOpen(true);
         e.preventDefault();
         return;
       }
     },
-    [editingId, handleAdd],
+    [editingId, handleAdd]
   );
 
   useEffect(() => {
-    window.addEventListener('keydown', handleGlobalKeyDown);
-    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+    window.addEventListener("keydown", handleGlobalKeyDown);
+    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
   }, [handleGlobalKeyDown]);
 
   // When projectId changes, load its entries and skip the next save
@@ -115,13 +133,13 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
     skipSave.current = true;
     const loaded = loadEntries(projectId);
     setEntries(loaded);
-    setNarrative('');
+    setNarrative("");
     setRisk(5);
-    setTags('');
+    setTags("");
     setEditingId(null);
-    setEditNarrative('');
+    setEditNarrative("");
     setEditRisk(5);
-    setEditTags('');
+    setEditTags("");
   }, [projectId]);
 
   // Save entries whenever they change, but skip immediately after project switch
@@ -143,7 +161,7 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
     setEditingId(entry.entry_id);
     setEditNarrative(entry.narrative);
     setEditRisk(entry.risk_factor);
-    setEditTags(entry.tags.join(', '));
+    setEditTags(entry.tags.join(", "));
   };
 
   // Save edited entry
@@ -156,26 +174,26 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
               narrative: editNarrative.trim(),
               risk_factor: editRisk,
               tags: editTags
-                .split(',')
+                .split(",")
                 .map((t) => t.trim())
                 .filter(Boolean),
               updated_at: new Date().toISOString(),
             }
-          : e,
-      ),
+          : e
+      )
     );
     setEditingId(null);
-    setEditNarrative('');
+    setEditNarrative("");
     setEditRisk(5);
-    setEditTags('');
+    setEditTags("");
   };
 
   // Cancel editing
   const handleCancelEdit = () => {
     setEditingId(null);
-    setEditNarrative('');
+    setEditNarrative("");
     setEditRisk(5);
-    setEditTags('');
+    setEditTags("");
   };
 
   // Filter entries by active category
@@ -190,11 +208,14 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
             key={cat}
             className={`px-4 py-2 text-sm font-medium rounded-t-xl transition focus:outline-none focus:ring-2 focus:ring-blue-400 ${
               activeTab === cat
-                ? 'bg-blue-600 text-white shadow-sm dark:bg-blue-500 dark:text-gray-100'
-                : 'bg-gray-100 text-gray-700 hover:bg-blue-50 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-blue-900'
+                ? "bg-blue-600 text-white shadow-sm dark:bg-blue-500 dark:text-gray-100"
+                : "bg-gray-100 text-gray-700 hover:bg-blue-50 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-blue-900"
             }`}
             onClick={() => setActiveTab(cat)}
           >
+            <span className="mr-1" aria-hidden="true">
+              {CATEGORY_ICONS[cat]}
+            </span>
             {cat}
           </button>
         ))}
@@ -203,27 +224,39 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
       <div className="border border-gray-200 dark:border-gray-800 rounded-b-xl bg-white dark:bg-gray-900 p-6 min-h-[220px] shadow-sm transition-colors duration-300">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-2">
           <h2 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
-            {activeTab} Factors
+            {CATEGORY_ICONS[activeTab]} {activeTab} Factors
           </h2>
           <div className="flex gap-2 items-center flex-wrap">
             <button
-              className="text-blue-600 dark:text-blue-400 underline text-sm px-2 py-1 rounded hover:bg-blue-50 dark:hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              className="relative text-blue-600 dark:text-blue-400 text-sm px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition font-medium overflow-hidden group"
               onClick={() => setPromptOpen(true)}
             >
-              Show Prompts
+              <span role="img" aria-label="Prompts" className="mr-1">
+                💡
+              </span>
+              <span className="relative z-10">Show Prompts</span>
+              <span className="absolute left-0 bottom-0 w-full h-0.5 bg-blue-400 dark:bg-blue-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-200" />
             </button>
             <button
-              className="text-blue-600 dark:text-blue-400 underline text-sm px-2 py-1 rounded hover:bg-blue-50 dark:hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              className="relative text-blue-600 dark:text-blue-400 text-sm px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition font-medium overflow-hidden group"
               onClick={() => setSummaryOpen(true)}
             >
-              Summary
+              <span role="img" aria-label="Summary" className="mr-1">
+                📊
+              </span>
+              <span className="relative z-10">Summary</span>
+              <span className="absolute left-0 bottom-0 w-full h-0.5 bg-blue-400 dark:bg-blue-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-200" />
             </button>
             <div className="ml-2">
               <ExportMenu projectId={projectId} />
             </div>
           </div>
         </div>
-        <PromptPanel category={activeTab} open={promptOpen} onClose={() => setPromptOpen(false)} />
+        <PromptPanel
+          category={activeTab}
+          open={promptOpen}
+          onClose={() => setPromptOpen(false)}
+        />
         <SummaryDashboard
           projectId={projectId}
           open={summaryOpen}
@@ -258,19 +291,27 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
               onChange={(e) => setTags(e.target.value)}
             />
             <button
-              className="bg-green-600 text-white px-5 py-2 rounded shadow-sm hover:bg-green-700 focus:ring-2 focus:ring-green-400 focus:outline-none transition font-semibold"
+              className="bg-green-600 text-white px-5 py-2 rounded shadow-sm hover:bg-green-700 focus:ring-2 focus:ring-green-400 focus:outline-none transition font-semibold flex items-center gap-1"
               onClick={handleAdd}
             >
+              <span role="img" aria-label="Add">
+                ➕
+              </span>
               Add
             </button>
           </div>
         </div>
         <ul className="divide-y divide-gray-100 dark:divide-gray-800">
           {filtered.length === 0 && (
-            <li className="text-gray-500 dark:text-gray-400">No entries yet.</li>
+            <li className="text-gray-500 dark:text-gray-400">
+              No entries yet.
+            </li>
           )}
           {filtered.map((entry) => (
-            <li key={entry.entry_id} className="py-2 flex items-center justify-between">
+            <li
+              key={entry.entry_id}
+              className="py-2 flex items-center justify-between"
+            >
               {editingId === entry.entry_id ? (
                 <div className="flex-1">
                   <textarea
@@ -299,15 +340,21 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
                   </div>
                   <div className="flex gap-2">
                     <button
-                      className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+                      className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 focus:ring-2 focus:ring-blue-400 focus:outline-none transition flex items-center gap-1"
                       onClick={() => handleSaveEdit(entry.entry_id)}
                     >
+                      <span role="img" aria-label="Save">
+                        💾
+                      </span>
                       Save
                     </button>
                     <button
-                      className="bg-gray-300 dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-1 rounded hover:bg-gray-400 dark:hover:bg-gray-600 focus:ring-2 focus:ring-gray-400 focus:outline-none transition"
+                      className="bg-gray-300 dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-1 rounded hover:bg-gray-400 dark:hover:bg-gray-600 focus:ring-2 focus:ring-gray-400 focus:outline-none transition flex items-center gap-1"
                       onClick={handleCancelEdit}
                     >
+                      <span role="img" aria-label="Cancel">
+                        ✖️
+                      </span>
                       Cancel
                     </button>
                   </div>
@@ -318,10 +365,10 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
                     {entry.narrative}
                   </div>
                   <div className="text-sm text-gray-500 dark:text-gray-400">
-                    Risk: {entry.risk_factor} | Tags: {entry.tags.join(', ')}
+                    Risk: {entry.risk_factor} | Tags: {entry.tags.join(", ")}
                   </div>
                   <div className="text-xs text-gray-400 dark:text-gray-500">
-                    Created: {entry.created_at.slice(0, 10)} | Updated:{' '}
+                    Created: {entry.created_at.slice(0, 10)} | Updated:{" "}
                     {entry.updated_at.slice(0, 10)}
                   </div>
                 </div>
@@ -329,16 +376,30 @@ const PESTLEWorkspace: React.FC<PESTLEWorkspaceProps> = ({ projectId }) => {
               {editingId === entry.entry_id ? null : (
                 <div className="flex flex-col gap-1 items-end">
                   <button
-                    className="text-blue-600 dark:text-blue-400 hover:underline"
+                    className="text-blue-600 dark:text-blue-400 flex items-center gap-1 group"
                     onClick={() => handleEdit(entry)}
                   >
-                    Edit
+                    <span
+                      role="img"
+                      aria-label="Edit"
+                      className="not-underline"
+                    >
+                      ✏️
+                    </span>
+                    <span className="group-hover:underline">Edit</span>
                   </button>
                   <button
-                    className="text-red-500 dark:text-red-400 hover:underline"
+                    className="text-red-500 dark:text-red-400 flex items-center gap-1 group"
                     onClick={() => handleDelete(entry.entry_id)}
                   >
-                    Delete
+                    <span
+                      role="img"
+                      aria-label="Delete"
+                      className="not-underline"
+                    >
+                      🗑️
+                    </span>
+                    <span className="group-hover:underline">Delete</span>
                   </button>
                 </div>
               )}
